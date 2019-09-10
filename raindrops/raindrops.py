@@ -1,13 +1,6 @@
-def sound_maker(divisor, noise):
-    def sounder(n):
-        return noise if n % divisor == 0 else ''
-    return sounder
+sounds = (("Pling", 3), ("Plang", 5), ("Plong", 7))
 
-pling = sound_maker(3, 'Pling')
-plang = sound_maker(5, 'Plang')
-plong = sound_maker(7, 'Plong')
 
 def convert(number):
-    return ''.join(
-        sound(number) for sound in (pling, plang, plong)
-    ) or str(number)
+    result = "".join(word for word, divisor in sounds if number % divisor == 0)
+    return result or str(number)
