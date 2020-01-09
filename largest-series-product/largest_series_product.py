@@ -12,7 +12,10 @@ def windowed(iterable, size):
             yield chunk
 
 def windowed_with(iterable, size, fn=identity):
-    return (map(fn, window) for window in windowed(iterable, size))
+    return (tuple(fn(chunk) for chunk in window) for window in windowed(iterable, size))
+
+def product(iterable, start=1):
+    return reduce(mul, iterable, start)
 
 def largest_product(series, size):
     if size == 0:
@@ -23,7 +26,7 @@ def largest_product(series, size):
         raise ValueError("Size cannot be larger than size of series")
     if not series.isdecimal():
         raise ValueError("Series can only contain digits 0-9")
-    return max(reduce(mul, window, 1) for window in windowed_with(series, size, int))
+    return max(product(window) for window in windowed_with(series, size, int))
 
 if __name__ == '__main__':
     print(largest_product('99099', 3))
